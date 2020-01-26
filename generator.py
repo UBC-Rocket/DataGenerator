@@ -33,6 +33,9 @@ def altToPres(alt):
 src_dat[:, 1] = altToPres(src_dat[:, 1]) # convert to mbar
 
 # add measurement errors ============================================
+def generalRound(a, MinClip):
+    return round(a / MinClip) * MinClip
+
 with open(f"output/SkyPilotSimulation__gen_{time.time()}.csv", "w", newline="") as out_file:
     out_csver = csv.writer(out_file)
     out_csver.writerow((3,))
@@ -40,6 +43,7 @@ with open(f"output/SkyPilotSimulation__gen_{time.time()}.csv", "w", newline="") 
     for i in range(src_dat.shape[0]):
         out_dat = src_dat[i,:]
         out_dat[1] += kernel.resample(1)
+        out_dat[1] = generalRound(out_dat[1], 0.01) #Quantization
         out_csver.writerow(src_dat[i, :])
 
 
