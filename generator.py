@@ -16,12 +16,13 @@ assert raw_src_dat[0, 1] == "alt_ft"
 src_dat = np.array(raw_src_dat[2:,:], dtype=np.float64)
 src_dat[:, 1] *= 0.3048  #Convert to metres
 
-#Todo - reuse the below uniform random distribution stretcher code
-P_b = 1018 + np.random.random_sample() * 4 - 2  #mbar
+def uniformRandom(mean, width):
+    return mean + np.random.random_sample() * width - width/2
+P_b = uniformRandom(1018, 4)  #mbar
 #others should be SI units
 R = 8.31432
-T = 290 + np.random.random_sample() * 20 - 10
-L_b = -0.006 + np.random.random_sample() / 1000 - 0.005
+T = uniformRandom(290, 20)
+L_b = uniformRandom(-0.006, 0.001)
 g = 9.808
 M = 0.02896
 
